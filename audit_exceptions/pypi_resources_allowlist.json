@@ -1,0 +1,6 @@
+{
+  "azure-cli": "certifi cffi cryptography",
+  "backgroundremover": "numpy",
+  "dstack": "pydantic",
+  "openai-whisper": "numpy"
+}

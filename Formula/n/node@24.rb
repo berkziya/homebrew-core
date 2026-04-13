@@ -37,6 +37,8 @@ class NodeAT24 < Formula
   depends_on "libnghttp3"
   depends_on "libngtcp2"
   depends_on "libuv"
+  depends_on "merve"
+  depends_on "nbytes"
   depends_on "openssl@3"
   depends_on "simdjson"
   depends_on "sqlite" # Fails with macOS sqlite.
@@ -83,6 +85,8 @@ class NodeAT24 < Formula
       --shared-cares
       --shared-hdr-histogram
       --shared-libuv
+      --shared-merve
+      --shared-nbytes
       --shared-nghttp2
       --shared-nghttp3
       --shared-ngtcp2
@@ -100,6 +104,10 @@ class NodeAT24 < Formula
       --shared-hdr-histogram-libpath=#{Formula["hdrhistogram_c"].lib}
       --shared-libuv-includes=#{Formula["libuv"].include}
       --shared-libuv-libpath=#{Formula["libuv"].lib}
+      --shared-merve-includes=#{Formula["merve"].include}
+      --shared-merve-libpath=#{Formula["merve"].lib}
+      --shared-nbytes-includes=#{Formula["nbytes"].include}
+      --shared-nbytes-libpath=#{Formula["nbytes"].lib}
       --shared-nghttp2-includes=#{Formula["libnghttp2"].include}
       --shared-nghttp2-libpath=#{Formula["libnghttp2"].lib}
       --shared-nghttp3-includes=#{Formula["libnghttp3"].include}
@@ -129,15 +137,11 @@ class NodeAT24 < Formula
     # TODO: Try to devendor these libraries.
     # - `--shared-ada` needs the `ada-url` formula, but requires C++20
     # - `--shared-gtest` is only used for building the test suite, which we don't run here.
-    # - `--shared-merve` is not available as dependency in Homebrew.
-    # - `--shared-nbytes` is not available as dependency in Homebrew.
     # - `--shared-simdutf` seems to result in build failures.
     # - `--shared-http-parser` and `--shared-uvwasi` are not available as dependencies in Homebrew.
     ignored_shared_flags = %w[
       ada
       gtest
-      merve
-      nbytes
       http-parser
       simdutf
     ].map { |library| "--shared-#{library}" }

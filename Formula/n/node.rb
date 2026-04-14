@@ -4,7 +4,7 @@ class Node < Formula
   url "https://nodejs.org/dist/v25.9.0/node-v25.9.0.tar.xz"
   sha256 "8f78af3ee55fb278668b5f801db58bd1a38ea161318eb5ce2128ddbc9cd813aa"
   license "MIT"
-  revision 2
+  revision 3
   compatibility_version 1
   head "https://github.com/nodejs/node.git", branch: "main"
 
@@ -38,6 +38,7 @@ class Node < Formula
   depends_on "nbytes"
   depends_on "openssl@3"
   depends_on "simdjson"
+  depends_on "simdutf"
   depends_on "sqlite" # Fails with macOS sqlite.
   depends_on "uvwasi"
   depends_on "zstd"
@@ -124,6 +125,7 @@ class Node < Formula
       "ngtcp2"        => ["ngtcp2",          "libngtcp2"],
       "openssl"       => ["openssl/openssl", "openssl@3"],
       "simdjson"      => ["simdjson",        "simdjson"],
+      "simdutf"       => ["simdutf",         "simdutf"],
       "sqlite"        => ["sqlite",          "sqlite"],
       "uvwasi"        => ["uvwasi",          "uvwasi"],
       "zlib"          => ["zlib",            ("zlib-ng-compat" unless OS.mac?)],
@@ -139,12 +141,10 @@ class Node < Formula
 
     # TODO: Try to devendor these libraries.
     # - `--shared-gtest` is only used for building the test suite, which we don't run here.
-    # - `--shared-simdutf` seems to result in build failures.
     # - `--shared-temporal_capi` is only used when building with `--v8-enable-temporal-support`
     # - `--shared-lief` is not available as dependency in Homebrew.
     ignored_shared_flags = %w[
       gtest
-      simdutf
       temporal_capi
       lief
     ].map { |library| "--shared-#{library}" }

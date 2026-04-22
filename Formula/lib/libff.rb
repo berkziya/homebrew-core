@@ -7,6 +7,7 @@ class Libff < Formula
       revision: "5835b8c59d4029249645cf551f417608c48f2770"
   license "MIT"
 
+  revision 1
   bottle do
     rebuild 1
     sha256 cellar: :any,                 arm64_tahoe:    "db4d97e98593d209602d684828214f50938db098fc7abae7ddc562dd86bf49ec"
@@ -24,7 +25,7 @@ class Libff < Formula
   end
 
   depends_on "cmake" => :build
-  depends_on "openssl@3" => :build
+  depends_on "openssl@4" => :build
 
   depends_on "gmp"
 
@@ -38,7 +39,7 @@ class Libff < Formula
     args = %W[
       -DWITH_PROCPS=OFF
       -DCURVE=#{curve}
-      -DOPENSSL_ROOT_DIR=#{Formula["openssl@3"].opt_prefix}
+      -DOPENSSL_ROOT_DIR=#{Formula["openssl@4"].opt_prefix}
       -DCMAKE_CXX_STANDARD=17
       -DCMAKE_POSITION_INDEPENDENT_CODE=ON
     ]
@@ -48,6 +49,12 @@ class Libff < Formula
     system "cmake", "-S", ".", "-B", "build", *args, *std_cmake_args
     system "cmake", "--build", "build"
     system "cmake", "--install", "build"
+
+    # Upstream does not install headers; .hpp files include matching .tcc templates.
+    src = buildpath/"libff"
+    Dir["#{src}/**/*.{hpp,tcc}"].each do |f|
+      (include/"libff"/Pathname(f).relative_path_from(src).dirname).install f
+    end
   end
 
   test do

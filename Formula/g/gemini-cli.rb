@@ -1,8 +1,8 @@
 class GeminiCli < Formula
   desc "Interact with Google Gemini AI models from the command-line"
   homepage "https://github.com/google-gemini/gemini-cli"
-  url "https://registry.npmjs.org/@google/gemini-cli/-/gemini-cli-0.38.2.tgz"
-  sha256 "9b0c752cfe9375370e1812f37afffd97387b99df71e64cea53e588a25f4d688c"
+  url "https://registry.npmjs.org/@google/gemini-cli/-/gemini-cli-0.39.1.tgz"
+  sha256 "f6afd726bd2e4510e8407c9dda3c34a3fa63d5f4baea7cff10375269ef974216"
   license "Apache-2.0"
 
   bottle do
@@ -24,7 +24,7 @@ class GeminiCli < Formula
     os = OS.kernel_name.downcase
     arch = Hardware::CPU.intel? ? "x64" : Hardware::CPU.arch.to_s
     node_modules = libexec/"lib/node_modules/@google/gemini-cli/node_modules"
-    node_modules.glob("{bare-fs,bare-os,bare-url,tree-sitter-bash,node-pty}/prebuilds/*").each do |dir|
+    node_modules.glob("{bare-fs,bare-os,bare-url,tree-sitter-bash,node-pty,@github/keytar}/prebuilds/*").each do |dir|
       rm_r(dir) if dir.basename.to_s != "#{os}-#{arch}"
     end
   end
